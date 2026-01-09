@@ -1,6 +1,6 @@
 {
-  "short_name": "TanStack Chat", 
-  "name": "TanStack Chat Template",
+  "short_name": "Park Rides Quest",
+  "name": "Park Rides Quest",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#07163A",
+  "background_color": "#07163A"
 }
