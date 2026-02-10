@@ -98,7 +98,7 @@ function PrivacyPage() {
         You may request deletion of your anonymous account identifier and associated data we can reasonably locate 
         (for example: session participation records, ratings, summaries, event logs, and policy acceptance records).
         To request deletion, contact us at:
-        <span className="block mt-2 text-white font-black">support@parkridesquest.app</span>
+        <span className="block mt-2 text-white font-black">support@parkridesquest.com</span>
         Please include your session code(s) and approximate date/time of use so we can locate and remove the relevant data. 
         We typically process deletion requests within 30 days.
       </P>
