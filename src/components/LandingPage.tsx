@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Star,
   Users,
@@ -8,9 +9,17 @@ import {
   ChevronRight,
   ChevronDown,
   Apple,
+  Play,
 } from "lucide-react";
 
-const APP_STORE_URL = "https://YOUR-APP-STORE-LINK-HERE"; // replace later
+const APP_STORE_URL = "https://apps.apple.com/us/app/park-rides-quest/id6758357921";
+
+// Placeholder for now — replace when Android is live:
+// https://play.google.com/store/apps/details?id=YOUR.PACKAGE.NAME
+const GOOGLE_PLAY_URL = "#";
+
+// Turn this ON after you add the badge files to public/badges/
+const USE_OFFICIAL_BADGES = true;
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -23,7 +32,6 @@ function PrettyTitle() {
     color: "rgba(0,0,0,0.22)",
   };
 
-  // Like your Flutter Stack: 4 outlines + main text with shadow
   return (
     <div className="relative inline-block select-none">
       {/* Outlines */}
@@ -77,6 +85,83 @@ function PrettyTitle() {
   );
 }
 
+function StoreButtons({ variant = "primary" }: { variant?: "primary" | "secondary" }) {
+  const appleButtonClass =
+    variant === "primary"
+      ? `inline-flex items-center rounded-2xl px-8 py-5 text-lg font-black
+         bg-[#3E7BFF] hover:bg-[#3E7BFF]/90
+         shadow-[0_16px_40px_rgba(0,0,0,0.25)]
+         border border-white/20 transition-all group`
+      : `inline-flex items-center rounded-2xl px-10 py-6 text-xl font-black
+         bg-white text-[#07163A] hover:bg-white/95
+         shadow-[0_16px_45px_rgba(0,0,0,0.22)]
+         transition-all group`;
+
+  // Disabled Google Play button (coming soon)
+  const googleDisabledClass =
+    variant === "primary"
+      ? `inline-flex items-center rounded-2xl px-8 py-5 text-lg font-black
+         bg-white/20 hover:bg-white/20
+         shadow-[0_16px_40px_rgba(0,0,0,0.18)]
+         border border-white/20 transition-all opacity-70 cursor-not-allowed`
+      : `inline-flex items-center rounded-2xl px-10 py-6 text-xl font-black
+         bg-white/70 text-[#07163A]
+         shadow-[0_16px_45px_rgba(0,0,0,0.18)]
+         transition-all opacity-70 cursor-not-allowed`;
+
+  return (
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      {/* Apple */}
+      <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer">
+        <button className={appleButtonClass}>
+          {USE_OFFICIAL_BADGES ? (
+            <img
+              src="/badges/app-store.svg"
+              alt="Download on the App Store"
+              className={variant === "primary" ? "h-7 mr-3" : "h-8 mr-3"}
+              draggable={false}
+            />
+          ) : (
+            <Apple className={variant === "primary" ? "w-6 h-6 mr-3" : "w-7 h-7 mr-3"} />
+          )}
+
+          {variant === "primary" ? "Download on the App Store" : "Download Now"}
+
+          <ChevronRight
+            className={
+              variant === "primary"
+                ? "w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"
+                : "w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform"
+            }
+          />
+        </button>
+      </a>
+
+      {/* Google Play (coming soon placeholder) */}
+      <a
+        href={GOOGLE_PLAY_URL}
+        onClick={(e) => e.preventDefault()}
+        aria-disabled="true"
+        tabIndex={-1}
+      >
+        <button className={googleDisabledClass}>
+          {USE_OFFICIAL_BADGES ? (
+            <img
+              src="/badges/google-play.png"
+              alt="Get it on Google Play (Coming soon)"
+              className={variant === "primary" ? "h-7 mr-3" : "h-8 mr-3"}
+              draggable={false}
+            />
+          ) : (
+            <Play className={variant === "primary" ? "w-6 h-6 mr-3" : "w-7 h-7 mr-3"} />
+          )}
+          Google Play (Coming soon)
+        </button>
+      </a>
+    </div>
+  );
+}
+
 export default function LandingPage() {
   return (
     <div className="min-h-screen text-white">
@@ -109,7 +194,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Fancy title (Flutter-style outline + shadow) */}
+              {/* Fancy title */}
               <PrettyTitle />
 
               <p className="mt-7 text-lg md:text-2xl text-white/90 mb-10 leading-relaxed font-semibold">
@@ -117,20 +202,9 @@ export default function LandingPage() {
                 debates, and discover which character matches your unique style!
               </p>
 
-              {/* CTA */}
+              {/* ✅ Download buttons (Apple live + Google Play coming soon) */}
               <div className="flex justify-center mb-10">
-                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer">
-                  <button
-                    className="inline-flex items-center rounded-2xl px-8 py-5 text-lg font-black
-                               bg-[#3E7BFF] hover:bg-[#3E7BFF]/90
-                               shadow-[0_16px_40px_rgba(0,0,0,0.25)]
-                               border border-white/20 transition-all group"
-                  >
-                    <Apple className="w-6 h-6 mr-3" />
-                    Download on the App Store
-                    <ChevronRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </a>
+                <StoreButtons variant="primary" />
               </div>
 
               {/* Fun chips */}
@@ -266,21 +340,9 @@ export default function LandingPage() {
 
               <div className="grid md:grid-cols-3 gap-8">
                 {[
-                  {
-                    n: 1,
-                    title: "Create a Group",
-                    text: "Start a new group and invite your friends to join the fun.",
-                  },
-                  {
-                    n: 2,
-                    title: "Rate the Rides",
-                    text: "Score each attraction on four different metrics that matter to you.",
-                  },
-                  {
-                    n: 3,
-                    title: "Discover Results",
-                    text: "Find your character match and compare with your group!",
-                  },
+                  { n: 1, title: "Create a Group", text: "Start a new group and invite your friends to join the fun." },
+                  { n: 2, title: "Rate the Rides", text: "Score each attraction on four different metrics that matter to you." },
+                  { n: 3, title: "Discover Results", text: "Find your character match and compare with your group!" },
                 ].map((s, i) => (
                   <div key={s.n} className="relative">
                     <div
@@ -326,19 +388,9 @@ export default function LandingPage() {
                 Download now and start your Adventure while you wait in line.
               </p>
 
+              {/* ✅ Download buttons again */}
               <div className="flex justify-center">
-                <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer">
-                  <button
-                    className="inline-flex items-center rounded-2xl px-10 py-6 text-xl font-black
-                               bg-white text-[#07163A] hover:bg-white/95
-                               shadow-[0_16px_45px_rgba(0,0,0,0.22)]
-                               transition-all group"
-                  >
-                    <Apple className="w-7 h-7 mr-3" />
-                    Download Now
-                    <ChevronRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </a>
+                <StoreButtons variant="secondary" />
               </div>
             </div>
           </section>
